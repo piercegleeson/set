@@ -1,9 +1,42 @@
 import type { Card, Color, Shape, Shading, Count } from '../types/card'
 
-const COLORS: Color[] = ['red', 'green', 'purple']
-const SHAPES: Shape[] = ['diamond', 'oval', 'squiggle']
+const COLORS: Color[] = ['red', 'blue', 'yellow']
+const SHAPES: Shape[] = ['diamond', 'circle', 'square']
 const SHADINGS: Shading[] = ['solid', 'striped', 'empty']
 const COUNTS: Count[] = [1, 2, 3]
+
+// Seeded PRNG (mulberry32) — returns a function producing deterministic floats in [0,1)
+function mulberry32(seed: number): () => number {
+  let s = seed | 0
+  return () => {
+    s = (s + 0x6d2b79f5) | 0
+    let t = Math.imul(s ^ (s >>> 15), 1 | s)
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+  }
+}
+
+// Hash a date string like "2026-02-05" into a numeric seed
+function hashDateString(dateStr: string): number {
+  let hash = 0
+  for (let i = 0; i < dateStr.length; i++) {
+    const ch = dateStr.charCodeAt(i)
+    hash = ((hash << 5) - hash + ch) | 0
+  }
+  return hash
+}
+
+export function getTodayDateString(): string {
+  const now = new Date()
+  const yyyy = now.getFullYear()
+  const mm = String(now.getMonth() + 1).padStart(2, '0')
+  const dd = String(now.getDate()).padStart(2, '0')
+  return `${yyyy}-${mm}-${dd}`
+}
+
+export function getTodaysSeed(): number {
+  return hashDateString(getTodayDateString())
+}
 
 export function generateDeck(): Card[] {
   const deck: Card[] = []
@@ -27,15 +60,21 @@ export function generateDeck(): Card[] {
   return deck
 }
 
-export function shuffleDeck(deck: Card[]): Card[] {
+export function shuffleDeck(deck: Card[], randomFn: () => number = Math.random): Card[] {
   const shuffled = [...deck]
 
   for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
+    const j = Math.floor(randomFn() * (i + 1))
     ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
   }
 
   return shuffled
+}
+
+export function getDailyDeck(): Card[] {
+  const seed = getTodaysSeed()
+  const rng = mulberry32(seed)
+  return shuffleDeck(generateDeck(), rng)
 }
 
 function allSameOrAllDifferent<T>(a: T, b: T, c: T): boolean {

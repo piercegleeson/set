@@ -1,75 +1,223 @@
+.container{
+  margin:10vh auto 0;
+  max-width:1000px;
+  display:flex;
+}
 .game {
-  min-height: 100vh;
   padding: 20px;
-  background: #f5f5f5;
+  color:#fff;
+  flex:0 0 70%;
+}
+
+header{
+  border-bottom:20px solid #fff;
+  display:flex;
+  justify-content: space-between;
+  align-items: flex-end;
 }
 
 .title {
-  text-align: center;
-  font-size: 36px;
+  font-size: 60px;
   font-weight: 700;
-  color: #333;
-  margin: 0 0 20px;
+  margin: 0;
+  padding:0;
+  line-height: 48px;
+  text-indent: -4px;
+  position:relative;
+  color:#2F2C24;
+}
+.title:after{
+  content: "Daily Set";
+  position: absolute;
+  left: 0;
+  color: #FFE;
+  height: 48px;
+  overflow: hidden;
+  top: 0px;
 }
 
-.boardWrapper {
+.date {
+  text-align: left;
+  font-size: 18px;
+  margin:0;
+}
+
+.timestat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex:0 0 30%;
+  gap:10px;
+}
+
+.timestat .label {
+  font-size: 18px;
+  line-height:14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.timestat .value {
+  font-size: 48px;
+  line-height:44px;
+  font-weight: 600;
+}
+
+
+
+.indicator {
   transition: background 0.3s;
-  padding: 10px;
-  border-radius: 16px;
+  position:fixed;
+  top:0;
+  right:0;
+  left:0;
+  bottom:0;
+  z-index:-1;
 }
 
-.boardWrapper.valid {
+.indicator.valid {
   background: rgba(34, 197, 94, 0.2);
 }
 
-.boardWrapper.invalid {
+.indicator.invalid {
   background: rgba(239, 68, 68, 0.2);
 }
 
-.winMessage {
+.overlay {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  padding: 40px;
-  border-radius: 16px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-  text-align: center;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 100;
 }
 
-.winMessage h2 {
-  margin: 0 0 12px;
+.completionCard {
+  background: white;
+  padding: 40px 48px;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+}
+
+.completionTitle {
+  margin: 0 0 4px;
   font-size: 28px;
   color: #22c55e;
 }
 
-.winMessage p {
-  margin: 0 0 20px;
-  font-size: 18px;
-  color: #666;
+.completionDate {
+  margin: 0 0 24px;
+  font-size: 15px;
+  color: #999;
 }
 
-.playAgain {
-  padding: 12px 32px;
+.completionStats {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  margin-bottom: 24px;
+}
+
+.completionStat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.completionStatValue {
+  font-size: 32px;
+  font-weight: 700;
+  color: #333;
+}
+
+.completionStatLabel {
+  font-size: 13px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.completionMessage {
+  margin: 0;
   font-size: 16px;
-  font-weight: 600;
-  color: white;
-  background: #2563eb;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.15s;
-}
-
-.playAgain:hover {
-  background: #1d4ed8;
-}
-
-.deckInfo {
-  text-align: center;
-  margin-top: 16px;
   color: #666;
-  font-size: 14px;
+}
+
+
+.info{
+  color:#fff;
+  flex:0 0 22%;
+  margin-top:12%;
+}
+.info h2{
+  border-bottom:1px solid #fff;
+  font-size:18px;
+  line-height:24px;
+  padding:0 0 10px 0;
+  margin:0;
+}
+.info p{
+  font-size:14px;
+  line-height:18px;
+
+}
+.info p + h2{
+  margin-top:24px;
+  border-bottom:0;
+  margin-bottom:0;
+}
+.info .example{
+  display:flex;
+  gap:5px;
+  width:70%;
+}
+.info .example svg {
+  width: 48%;
+  height:unset;
+  aspect-ratio:1 / 1;
+}
+.info .example > div {
+  flex-grow:1;
+  pointer-events:none;
+}
+
+@media (max-width: 600px) {
+
+  .container{
+    flex-direction:column;
+    margin:0 auto;
+  }
+  .game{
+    padding:15px;
+  }
+  header{
+    border-bottom:10px solid #fff;
+  }
+  .timestat{
+    gap:14px;
+  }
+  .title{
+    font-size:48px;
+    line-height:40px;
+  }
+  .timestat .value{
+    font-size: 36px;
+    line-height: 32px;
+  }
+  .info{
+    margin-top:0;
+    padding:30px 20px;
+    border-top:1px solid #fff;
+  }
+  .info h2{
+    border-bottom:0;
+    padding-bottom:0;
+  }
+  .info .example{
+    width:50%;
+  }
 }

@@ -15,26 +15,29 @@ function Shape({ shape, color, shading }: { shape: string; color: string; shadin
   const shapePaths: Record<string, React.ReactNode> = {
     diamond: (
       <polygon
-        points="25,5 45,25 25,45 5,25"
+        points="25,0 50,25 25,50 0,25"
         fill={shading === 'striped' ? `url(#${patternId})` : fillColor}
         stroke={strokeColor}
         strokeWidth="2"
       />
     ),
-    oval: (
+    circle: (
       <ellipse
-        cx="25"
-        cy="25"
-        rx="18"
-        ry="20"
+        cx="26"
+        cy="26"
+        rx="23"
+        ry="23"
         fill={shading === 'striped' ? `url(#${patternId})` : fillColor}
         stroke={strokeColor}
         strokeWidth="2"
       />
     ),
-    squiggle: (
-      <path
-        d="M10,25 C10,10 20,5 25,10 C30,15 35,5 40,15 C45,25 40,40 35,40 C30,40 25,45 20,35 C15,25 10,40 10,25 Z"
+    square: (
+      <rect
+        x="4"
+        y="4"
+        width="42"
+        height="42"
         fill={shading === 'striped' ? `url(#${patternId})` : fillColor}
         stroke={strokeColor}
         strokeWidth="2"
@@ -46,7 +49,7 @@ function Shape({ shape, color, shading }: { shape: string; color: string; shadin
     <svg viewBox="0 0 50 50" className={styles.shape}>
       <defs>
         <pattern id={patternId} patternUnits="userSpaceOnUse" width="4" height="4">
-          <line x1="0" y1="0" x2="4" y2="0" stroke={strokeColor} strokeWidth="1.5" />
+          <line x1="0" y1="0" x2="4" y2="0" stroke={strokeColor} strokeWidth="2" />
         </pattern>
       </defs>
       {shapePaths[shape]}

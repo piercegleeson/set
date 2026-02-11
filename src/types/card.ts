@@ -1,5 +1,5 @@
-export type Color = 'red' | 'green' | 'purple'
-export type Shape = 'diamond' | 'oval' | 'squiggle'
+export type Color = 'red' | 'blue' | 'yellow'
+export type Shape = 'diamond' | 'circle' | 'square'
 export type Shading = 'solid' | 'striped' | 'empty'
 export type Count = 1 | 2 | 3
 

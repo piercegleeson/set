@@ -1,16 +1,14 @@
 .board {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  max-width: 600px;
+  gap: 20px;
   margin: 0 auto;
-  padding: 20px;
+  padding:20px 0;
 }
 
 @media (max-width: 600px) {
   .board {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    padding: 12px;
+    padding:20px 0;
+    gap: 10px;
   }
 }
