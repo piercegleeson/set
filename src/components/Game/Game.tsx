@@ -248,16 +248,6 @@ export function Game() {
           deck={deck}
         />
 
-        {/* TODO: remove this dev button */}
-        {gameStatus === 'playing' && (
-          <button
-            onClick={() => { setBoard([]); setDeck([]); setScore(7); setGameStatus('won'); }}
-            style={{ position: 'fixed', bottom: 8, right: 8, opacity: 0.5, fontSize: 11 }}
-          >
-            Test Win
-          </button>
-        )}
-
         {gameStatus === 'won' && (
           <div className={styles.overlay}>
             <div className={styles.completionCard}>
