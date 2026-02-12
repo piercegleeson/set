@@ -332,7 +332,7 @@ export function Game() {
             onClick={() => {}}
           />
         </div>
-        <p>These share one characteristic (solidss) and differ in all others.</p>
+        <p>These share one characteristic (solids) and differ in all others.</p>
         <div className={styles.example}>
           <CardComponent
             card={{ id: 'example-4', color: 'yellow', shape: 'circle', shading: 'solid', count: 1 }}
