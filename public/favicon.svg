@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="282px" height="282px" viewBox="0 0 282 282" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Desktop HD</title>
+    <g id="Desktop-HD" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect fill="#FFFFFF" x="0" y="0" width="282" height="282"></rect>
+        <circle id="Oval" stroke="#5396C5" stroke-width="3" fill="#5396C5" cx="143" cy="53" r="35.5"></circle>
+        <rect id="Rectangle" fill="#F6CD43" x="106" y="192" width="74" height="74"></rect>
+        <rect id="Rectangle" stroke="#E05A41" stroke-width="3" fill="#E05A41" transform="translate(143.207263, 142.705803) rotate(45.000000) translate(-143.207263, -142.705803) " x="118.207263" y="117.705803" width="50" height="50"></rect>
+    </g>
+</svg>
