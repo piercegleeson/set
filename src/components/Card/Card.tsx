@@ -4,6 +4,7 @@ import styles from './Card.module.css'
 interface CardProps {
   card: CardType
   isSelected: boolean
+  isHinted?: boolean
   onClick: () => void
 }
 
@@ -15,7 +16,7 @@ function Shape({ shape, color, shading }: { shape: string; color: string; shadin
   const shapePaths: Record<string, React.ReactNode> = {
     diamond: (
       <polygon
-        points="25,0 50,25 25,50 0,25"
+        points="24,2 46,24 24,46 2,24"
         fill={shading === 'striped' ? `url(#${patternId})` : fillColor}
         stroke={strokeColor}
         strokeWidth="2"
@@ -23,8 +24,8 @@ function Shape({ shape, color, shading }: { shape: string; color: string; shadin
     ),
     circle: (
       <ellipse
-        cx="26"
-        cy="26"
+        cx="25"
+        cy="25"
         rx="23"
         ry="23"
         fill={shading === 'striped' ? `url(#${patternId})` : fillColor}
@@ -49,7 +50,7 @@ function Shape({ shape, color, shading }: { shape: string; color: string; shadin
     <svg viewBox="0 0 50 50" className={styles.shape}>
       <defs>
         <pattern id={patternId} patternUnits="userSpaceOnUse" width="4" height="4">
-          <line x1="0" y1="0" x2="4" y2="0" stroke={strokeColor} strokeWidth="2" />
+          <line x1="0" y1="0" x2="4" y2="0" stroke={strokeColor} strokeWidth="2.5" />
         </pattern>
       </defs>
       {shapePaths[shape]}
@@ -57,14 +58,14 @@ function Shape({ shape, color, shading }: { shape: string; color: string; shadin
   )
 }
 
-export function Card({ card, isSelected, onClick }: CardProps) {
+export function Card({ card, isSelected, isHinted, onClick }: CardProps) {
   const shapes = Array.from({ length: card.count }, (_, i) => (
     <Shape key={i} shape={card.shape} color={card.color} shading={card.shading} />
   ))
 
   return (
     <div
-      className={`${styles.card} ${isSelected ? styles.selected : ''}`}
+      className={`${styles.card} ${isSelected ? styles.selected : ''} ${isHinted ? styles.hinted : ''}`}
       onClick={onClick}
     >
       <div className={styles.shapes}>{shapes}</div>

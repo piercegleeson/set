@@ -4,9 +4,10 @@ interface GameInfoProps {
   score: number
   setsOnBoard: number
   deck: { length: number }
+  onHint: () => void
 }
 
-export function GameInfo({ score, setsOnBoard, deck }: GameInfoProps) {
+export function GameInfo({ score, setsOnBoard, deck, onHint }: GameInfoProps) {
   return (
     <div className={styles.gameInfo}>
       <div className={styles.stats}>
@@ -21,6 +22,9 @@ export function GameInfo({ score, setsOnBoard, deck }: GameInfoProps) {
         <div className={styles.stat}>
           <span className={styles.label}>Cards remaining:</span>
           <span className={styles.value}>{deck.length}</span>
+        </div>
+        <div className={styles.stat}>
+          <button className={styles.hintButton} onClick={onHint}>Give A Hint</button>
         </div>
       </div>
     </div>

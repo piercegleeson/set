@@ -24,6 +24,6 @@
 @media (max-width: 600px) {
   .board {
     padding:20px 0;
-    gap: 10px;
+    gap: 12px;
   }
 }

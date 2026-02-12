@@ -2,6 +2,7 @@ import type { Card } from '../types/card'
 import { getTodayDateString } from './gameLogic'
 
 export interface GameState {
+  date: string
   deck: Card[]
   board: Card[]
   score: number
@@ -15,7 +16,11 @@ function getStorageKey(dateStr: string): string {
 }
 
 export function saveGameState(state: GameState): void {
-  const key = getStorageKey(getTodayDateString())
+  const today = getTodayDateString()
+  // Only save if the game belongs to today — prevents yesterday's
+  // in-progress game from being saved under today's key after midnight
+  if (state.date !== today) return
+  const key = getStorageKey(today)
   try {
     localStorage.setItem(key, JSON.stringify(state))
   } catch {

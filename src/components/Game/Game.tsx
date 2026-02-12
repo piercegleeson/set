@@ -17,10 +17,9 @@ function formatDate(dateStr: string): string {
   const date = new Date(year, month - 1, day)
   return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
 }
-function formatTime(seconds: number): string {
-  const mins = Math.floor(seconds / 60)
-  const secs = seconds % 60
-  return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
+function TimeDisplay({ seconds }: { seconds: number }) {
+  const str = `${Math.floor(seconds / 60).toString().padStart(2, '0')}:${(seconds % 60).toString().padStart(2, '0')}`
+  return <>{str.split('').map((ch, i) => <span key={i}>{ch}</span>)}</>
 }
 
 
@@ -34,13 +33,17 @@ export function Game() {
   const [feedback, setFeedback] = useState<FeedbackType>(null)
   const [initialized, setInitialized] = useState(false)
   const [shareStatus, setShareStatus] = useState<ShareStatus>('idle')
+  const [hintIds, setHintIds] = useState<string[]>([])
+  const [hintCount, setHintCount] = useState(0)
+  const [usedHintForCurrentSet, setUsedHintForCurrentSet] = useState(false)
 
   const todayStr = getTodayDateString()
   const todayFormatted = formatDate(todayStr)
 
   const handleShare = async () => {
     const timeStr = `${Math.floor(time / 60)}:${(time % 60).toString().padStart(2, '0')}`
-    const text = `Daily Set - ${todayFormatted}\n${score} sets found in ${timeStr}\nhttps://set.piercegleeson.com`
+    const hintsLine = hintCount > 0 ? `\n${hintCount} hint${hintCount === 1 ? '' : 's'} used` : ''
+    const text = `Daily Set - ${todayFormatted}\n${score} sets found in ${timeStr}${hintsLine}\nhttps://set.piercegleeson.com`
 
     if (navigator.share) {
       try {
@@ -63,6 +66,7 @@ export function Game() {
   const saveCurrentState = useCallback(() => {
     const { deck, board, score, time, gameStatus } = stateRef.current
     const state: GameState = {
+      date: todayStr,
       deck,
       board,
       score,
@@ -153,8 +157,9 @@ export function Game() {
   }, [gameStatus, initialized, saveCurrentState])
 
   // Check for win or auto-add cards when no valid set
+  // Skip while feedback is active to avoid racing with the set-removal handler
   useEffect(() => {
-    if (board.length === 0 || !initialized) return
+    if (board.length === 0 || !initialized || feedback) return
 
     const hasSet = findValidSet(board) !== null
     if (!hasSet && deck.length === 0) {
@@ -164,7 +169,7 @@ export function Game() {
       setDeck(deck.slice(3))
       setBoard([...board, ...newCards])
     }
-  }, [board, deck, initialized])
+  }, [board, deck, initialized, feedback])
 
   // Save on game won
   useEffect(() => {
@@ -176,6 +181,7 @@ export function Game() {
   const handleCardClick = (card: Card) => {
     if (gameStatus !== 'playing' || feedback) return
 
+    setHintIds([])
     setSelectedIds((prev) => {
       if (prev.includes(card.id)) {
         return prev.filter((id) => id !== card.id)
@@ -183,6 +189,20 @@ export function Game() {
       if (prev.length >= 3) return prev
       return [...prev, card.id]
     })
+  }
+
+  const handleHint = () => {
+    if (gameStatus !== 'playing' || feedback) return
+    const validSet = findValidSet(board)
+    if (!validSet) return
+
+    setSelectedIds([])
+    setHintIds([validSet[0].id])
+
+    if (!usedHintForCurrentSet) {
+      setHintCount((c) => c + 1)
+      setUsedHintForCurrentSet(true)
+    }
   }
 
   useEffect(() => {
@@ -198,16 +218,25 @@ export function Game() {
         setScore((s) => s + 1)
 
         let newBoard = board.filter((c) => !selectedIds.includes(c.id))
+        let newDeck = deck
 
-        if (newBoard.length < 12 && deck.length > 0) {
-          const cardsNeeded = Math.min(12 - newBoard.length, deck.length)
-          const newCards = deck.slice(0, cardsNeeded)
-          setDeck(deck.slice(cardsNeeded))
-          newBoard = [...newBoard, ...newCards]
+        // Refill board to 12 cards
+        if (newBoard.length < 12 && newDeck.length > 0) {
+          const cardsNeeded = Math.min(12 - newBoard.length, newDeck.length)
+          newBoard = [...newBoard, ...newDeck.slice(0, cardsNeeded)]
+          newDeck = newDeck.slice(cardsNeeded)
         }
 
+        // Keep adding cards if no valid set exists
+        while (findValidSet(newBoard) === null && newDeck.length > 0) {
+          newBoard = [...newBoard, ...newDeck.slice(0, 3)]
+          newDeck = newDeck.slice(3)
+        }
+
+        setDeck(newDeck)
         setBoard(newBoard)
-        // Save after valid set found (will be picked up by the periodic save or next state change)
+        setUsedHintForCurrentSet(false)
+        setHintIds([])
         setTimeout(() => saveCurrentState(), 50)
       }
 
@@ -232,13 +261,14 @@ export function Game() {
           </div>
           <div className={styles.timestat}>
             <span className={styles.label}>Time:</span>
-            <span className={styles.value}>{formatTime(time)}</span>
+            <span className={styles.value}><TimeDisplay seconds={time} /></span>
           </div>
         </header>
         <div className={styles.boardWrapper}>
           <Board
             cards={board}
             selectedIds={[...selectedIds]}
+            hintIds={hintIds}
             onCardClick={handleCardClick}
           />
         </div>
@@ -246,6 +276,7 @@ export function Game() {
           score={score}
           setsOnBoard={setsOnBoard}
           deck={deck}
+          onHint={handleHint}
         />
 
         {gameStatus === 'won' && (
@@ -264,7 +295,10 @@ export function Game() {
                   <span className={styles.completionStatLabel}>Sets Found</span>
                   <span className={styles.completionStatValue}>{score}</span>
                 </div>
-
+                <div className={styles.completionStat}>
+                  <span className={styles.completionStatLabel}>Hints</span>
+                  <span className={styles.completionStatValue}>{hintCount}</span>
+                </div>
               </div>
               <p className={styles.completionMessage}>Come back tomorrow for a new set!</p>
               <button className={styles.shareButton} onClick={handleShare}>

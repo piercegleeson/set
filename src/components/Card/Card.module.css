@@ -22,12 +22,25 @@
   box-shadow: 0 0 0 5px var(--color-yellow);
 }
 
+.card.hinted {
+  box-shadow: 0 0 0 5px var(--color-blue);
+  position:relative;
+}
+.card.hinted:after{
+  content:"";
+  background:var(--color-blue);
+  position:absolute;
+  top:0;left:0;right:0;bottom:0;
+  opacity:0.1;
+  z-index:0;
+}
 .shapes {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 5px;
   width: 100%;
+  z-index:1;
 }
 
 .shape {
@@ -38,7 +51,7 @@
 
 @media(max-width:600px){
   .card.selected {
-    box-shadow: 0 0 0 2px var(--color-yellow);
+    box-shadow: 0 0 0 3px var(--color-yellow);
   }
   .shape {
     width: 45%;

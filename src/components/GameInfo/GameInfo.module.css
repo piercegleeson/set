@@ -18,11 +18,12 @@
   align-items: flex-start;
   border-right:1px solid #fff;
   flex:0 0 30%;
-  padding-right:10%;
+  padding-right:13%;
 }
 
 .stats .stat:last-child{
   border-right:0;
+  padding-right:0;
 }
 
 .label {
@@ -35,12 +36,25 @@
 .value {
   font-size: 36px;
   font-weight: 600;
-  letter-spacing:0.05em;
 }
 
-.buttons {
-  display: flex;
-  gap: 12px;
+.hintButton {
+  padding: 6px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  background: #fff;
+  color: var(--color-blue);
+  border:1px solid #fff;
+  border-radius: 2px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+  pointer:cursor
+}
+.hintButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 
@@ -48,7 +62,8 @@
 
 @media (max-width: 600px) {
   .gameInfo {
-    padding:10px 0;
+    padding:10px 0 0;
+    margin:0;
   }
 
   .stats {
@@ -56,7 +71,24 @@
   }
 
   .value {
-    line-height:36px;
+    line-height:48px;
 
   }
+  .stats{
+    flex-wrap:wrap;
+  }
+  .stats .stat{
+    flex:0 0 27%;
+    padding-right:8%;
+  }
+  .stats .stat:nth-child(3){
+    border-right:0;
+  }
+  .stats .stat:last-child{
+    flex:0 0 100%;
+    padding-right:0;
+    display:flex;
+    align-items: flex-end;
+  }
+
 }
