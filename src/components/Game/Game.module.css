@@ -129,7 +129,7 @@ header{
   margin: 0 0 4px;
   font-size: 28px;
   color: var(--color-red);
-
+  font-weight:600
 }
 
 .completionDate {
@@ -283,5 +283,11 @@ header{
   }
   .info .example{
     width:50%;
+  }
+  .completionCard {
+    padding:20px;
+  }
+  .completionStats{
+    gap:30px;
   }
 }
