@@ -23,9 +23,9 @@
 }
 
 @keyframes pop {
-  0% { transform: translateY(0) scale(1); }
-  40% { transform: translateY(0) scale(1.06); }
-  100% { transform: translateY(0) scale(1.03); }
+  0% { transform: scale(1); }
+  40% { transform: scale(1.06); }
+  100% { transform: scale(1.03); }
 }
 
 .card.removing {

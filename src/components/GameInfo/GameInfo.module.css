@@ -50,7 +50,6 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
-  pointer:cursor
 }
 .hintButton:hover {
   transform: translateY(-2px);

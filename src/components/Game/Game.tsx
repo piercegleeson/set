@@ -63,11 +63,11 @@ export function Game() {
   }
 
   // Ref to track latest state for saving without causing effect re-runs
-  const stateRef = useRef({ deck, board, score, time, gameStatus })
-  stateRef.current = { deck, board, score, time, gameStatus }
+  const stateRef = useRef({ deck, board, score, time, gameStatus, hintCount })
+  stateRef.current = { deck, board, score, time, gameStatus, hintCount }
 
   const saveCurrentState = useCallback(() => {
-    const { deck, board, score, time, gameStatus } = stateRef.current
+    const { deck, board, score, time, gameStatus, hintCount } = stateRef.current
     const state: GameState = {
       date: todayStr,
       deck,
@@ -75,7 +75,7 @@ export function Game() {
       score,
       time,
       completed: gameStatus === 'won',
-      totalSets: score,
+      hintCount,
     }
     saveGameState(state)
   }, [])
@@ -89,6 +89,7 @@ export function Game() {
       setBoard(saved.board)
       setScore(saved.score)
       setTime(saved.time)
+      setHintCount(saved.hintCount ?? 0)
       setGameStatus(saved.completed ? 'won' : 'playing')
     } else {
       const dailyDeck = getDailyDeck()
@@ -270,7 +271,7 @@ export function Game() {
       <div className={`${styles.indicator} ${feedback ? styles[feedback] : ''}`}></div>
       <div className={styles.game}>
         <header>
-          <div className="game-title">
+          <div>
             <p className={styles.date}>{todayFormatted}</p>
             <h1 className={styles.title}>Daily Set</h1>
           </div>
@@ -282,7 +283,7 @@ export function Game() {
         <div className={styles.boardWrapper}>
           <Board
             cards={board}
-            selectedIds={[...selectedIds]}
+            selectedIds={selectedIds}
             hintIds={hintIds}
             removingIds={removingIds}
             enteringIds={enteringIds}
@@ -371,17 +372,17 @@ export function Game() {
 
         <div className={styles.example}>
           <CardComponent
-            card={{ id: 'example-4', color: 'blue', shape: 'diamond', shading: 'striped', count: 2 }}
+            card={{ id: 'example-7', color: 'blue', shape: 'diamond', shading: 'striped', count: 2 }}
             isSelected={false}
             onClick={() => {}}
           />
           <CardComponent
-            card={{ id: 'example-5', color: 'yellow', shape: 'square', shading: 'striped', count: 2 }}
+            card={{ id: 'example-8', color: 'yellow', shape: 'square', shading: 'striped', count: 2 }}
             isSelected={false}
             onClick={() => {}}
           />
           <CardComponent
-            card={{ id: 'example-6  ', color: 'red', shape: 'circle', shading: 'striped', count: 2 }}
+            card={{ id: 'example-9', color: 'red', shape: 'circle', shading: 'striped', count: 2 }}
             isSelected={false}
             onClick={() => {}}
           />

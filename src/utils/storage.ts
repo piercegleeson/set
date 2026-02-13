@@ -8,7 +8,7 @@ export interface GameState {
   score: number
   time: number
   completed: boolean
-  totalSets: number
+  hintCount: number
 }
 
 function getStorageKey(dateStr: string): string {
@@ -37,9 +37,4 @@ export function loadGameState(): GameState | null {
   } catch {
     return null
   }
-}
-
-export function isTodayCompleted(): boolean {
-  const state = loadGameState()
-  return state?.completed === true
 }
