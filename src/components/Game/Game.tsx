@@ -329,7 +329,7 @@ export function Game() {
       <div className={styles.info}>
         <h2>What’s this?</h2>
         <p>Daily Set is an online version of the cult pattern matching card game SET!. Everyone who visits today is being dealt the same game, so you can compare your time with friends if you wish.</p>
-        <p>There are 85 cards in the deck, all unique, and you must gather them into sets of three. </p>
+        <p>There are 81 cards in the deck, all unique, and you must gather them into sets of three. </p>
         <p>A set is three cards where, for each characteristic (color, number, shape, shading), the cards are either all the same or all different.</p>
         <p>Just try it, it will start to make sense!</p>
         <h2>Example Sets</h2>
@@ -350,7 +350,7 @@ export function Game() {
             onClick={() => {}}
           />
         </div>
-        <p>These share one characteristic (solids) and differ in all others.</p>
+        <p>This set shares one characteristic (solids) and differ in all others.</p>
         <div className={styles.example}>
           <CardComponent
             card={{ id: 'example-4', color: 'yellow', shape: 'circle', shading: 'solid', count: 1 }}
@@ -368,7 +368,7 @@ export function Game() {
             onClick={() => {}}
           />
         </div>
-        <p>These differ in all characteristics.</p>
+        <p>This set differs in all characteristics.</p>
 
         <div className={styles.example}>
           <CardComponent
@@ -387,7 +387,7 @@ export function Game() {
             onClick={() => {}}
           />
         </div>
-        <p>These share 2 characteristics (number and fill) and differ in two others (shape and colour).</p>
+        <p>This set shares 2 characteristics (number and fill) and differs in two others (shape and colour).</p>
 
       </div>
     </div>
